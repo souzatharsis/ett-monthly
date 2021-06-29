@@ -27,7 +27,7 @@ ELO_THRESHOLD = 2000
 if submit:
     players = [ett.Player(p_id) for p_id in ids]
 
-    players_elo = [p.get_elo_history().rename(columns={"elo":(p.name+" ("+str(p.id)+")")}) for p in
+    players_elo = [p.get_elo_history().rename(columns={"elo":p.name}) for p in
                    players if p.get_elo_history() is not None]
 
     group_elo_df = reduce(lambda df1,df2: pd.merge(df1,df2,how='outer', left_index=True, right_index=True),
@@ -36,6 +36,7 @@ if submit:
     monthly_stats = group_elo_df.loc[(group_elo_df.index >= start_date)  & (group_elo_df.index <= end_date)].describe().filter(like='m', axis=0).transpose()
     monthly_stats['direct_entry'] = monthly_stats['max'] > ELO_THRESHOLD
     monthly_stats['can_qualify'] = monthly_stats['min'] <= ELO_THRESHOLD
+    monthly_stats['id'] = ids
     pd.options.display.float_format = '{:,.1f}'.format
 
     csv = monthly_stats.to_csv().encode()
