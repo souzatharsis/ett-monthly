@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import re
+import base64
 from pyETT import ett
 from functools import reduce
 
@@ -37,6 +38,12 @@ if submit:
     monthly_stats['can_qualify'] = monthly_stats['min'] <= ELO_THRESHOLD
     pd.options.display.float_format = '{:,.1f}'.format
     monthly_stats
+
+    csv = monthly_stats.to_csv().encode()
+
+    b64 = base64.b64encode(csv).decode()
+    href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
 
 '''
