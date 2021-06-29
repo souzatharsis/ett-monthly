@@ -37,13 +37,15 @@ if submit:
     monthly_stats['direct_entry'] = monthly_stats['max'] > ELO_THRESHOLD
     monthly_stats['can_qualify'] = monthly_stats['min'] <= ELO_THRESHOLD
     pd.options.display.float_format = '{:,.1f}'.format
-    monthly_stats
 
     csv = monthly_stats.to_csv().encode()
-
     b64 = base64.b64encode(csv).decode()
     href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
     st.markdown(href, unsafe_allow_html=True)
+
+    monthly_stats
+
+
 
 
 '''
