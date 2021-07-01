@@ -26,6 +26,14 @@ ELO_THRESHOLD = 2000
 
 if submit:
     players = [ett.Player(p_id) for p_id in ids]
+    player_none_index = [i for i, e in enumerate(players) if e is None]
+
+    if len(player_none_index) > 0:
+        st.write(f'The following players have invalid ids: ')
+        [ids[k] for k in player_none_index]
+
+    players = list(filter(None, players))
+    ids=[p.id for p in players]
 
     players_elo = [p.get_elo_history().rename(columns={"elo":p.name}) for p in
                    players if p.get_elo_history() is not None]
