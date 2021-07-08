@@ -31,7 +31,7 @@ if submit:
 
     ids = [p.id for p in players]
     if len(ids) > 0:
-        monthly_stats = ett.ETT().Tournament(players).qualify(elo_min=ELO_THRESHOLD, start=start_date, end=end_date)
+        monthly_stats = ett.Tournament(players).qualify(elo_min=ELO_THRESHOLD, start=start_date, end=end_date)
 
         pd.options.display.float_format = '{:,.1f}'.format
 
